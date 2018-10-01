@@ -204,6 +204,24 @@ Get access token through refresh_token. Return 1 if success, die in otherwise
     %opt:
         -refresh_token      => Your refresh token value (you can get refresh token after run method generateAccessToken() via getter getRefreshToken())
 
+=head2 getTokenInfo(%opt)
+
+Get info about access token (access_type, audience, expires_in, issued_to, scope). Return hashref of result or die in otherwise
+
+    %opt:
+        -access_token       => Value of access_token (default use value returned by method getRefreshToken())
+    Example:
+        my $token_info = $oauth->getTokenInfo( -access_token => $access_token );
+        $token_info:
+            {
+                access_type   "offline",
+                audience      "593952972427-e6dr18ua0leurrjt1num.apps.googleusercontent.com",
+                expires_in    3558,
+                issued_to     "593952972427-e6dr18ua0leurrjtum.apps.googleusercontent.com",
+                scope         "https://www.googleapis.com/auth/drive"
+            }
+
+
 =head2 getAccessToken()
 
 Return access token value
