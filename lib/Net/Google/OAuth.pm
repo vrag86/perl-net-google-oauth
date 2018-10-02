@@ -1,5 +1,8 @@
 package Net::Google::OAuth;
 
+our $VERSION = '0.01';
+
+use 5.008001;
 use strict;
 use warnings;
 use utf8;
