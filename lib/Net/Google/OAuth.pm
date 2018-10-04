@@ -1,6 +1,6 @@
 package Net::Google::OAuth;
 
-our $VERSION = '0.01';
+our $VERSION = '0.03';
 
 use 5.008001;
 use strict;
@@ -76,7 +76,9 @@ sub getTokenInfo {
 
     my $request = $self->{ua}->get('https://www.googleapis.com/oauth2/v2/tokeninfo?access_token=' . $access_token);
     my $response_code = $request->code;
-    croak "Can't getTokenInfo about token: $access_token. Code: $response_code" if $response_code != 200;
+    if ($response_code != 200) {
+        croak "Can't getTokenInfo about token: $access_token. Code: $response_code";
+    }
 
     my $response = decode_json($request->content);
 
@@ -129,7 +131,9 @@ sub __exchangeCodeToToken{
                                     $param,
                                 );
     my $response_code = $response->code;
-    croak "Can't get token. Code: $response_code" if $response_code != 200;
+    if ($response_code != 200) {
+        croak "Can't get token. Code: $response_code";
+    }
 
     my $token = decode_json($response->content);
 
@@ -141,7 +145,9 @@ sub __getOpenIdServices {
 
     my $request = $self->{ua}->get('https://accounts.google.com/.well-known/openid-configuration');
     my $response_code = $request->code;
-    croak "Can't get list of OpenId services" if $response_code != 200;
+    if ($response_code != 200) {
+        croak "Can't get list of OpenId services";
+    }
 
     my $response = decode_json($request->content);
 
@@ -159,6 +165,8 @@ sub getRefreshToken {
     return $_[0]->{token}->{refresh_token};
 }
 
+
+=encoding utf8
 
 =head1 NAME
 

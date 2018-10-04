@@ -3,9 +3,6 @@ use strict;
 use warnings;
 use utf8;
 use lib 'lib';
-use File::Basename;
-use File::Spec;
-use Data::Printer;
 use Net::Google::OAuth;
 
 use Test::More 'no_plan';

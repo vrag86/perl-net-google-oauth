@@ -13,7 +13,7 @@ WriteMakefile(
     PREREQ_PM         => {
         'URI'                   => 1.64,
         'LWP::UserAgent'        => 6.27,
-        'LWP::Protocol::https'  => 6.07,
+        'LWP::Protocol::https'  => 6.06,
         'JSON::XS'              => 3.04,
         'HTTP::Request'         => 6.00,
     },

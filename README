@@ -1,0 +1,79 @@
+NAME
+    Net::Google::OAuth - Simple Google oauth api module
+
+SYNOPSIS
+    This module get acess_token and refresh_token from google oath use
+    Net::Google::OAuth;
+
+        #Create oauth object. You need set client_id and client_secret value. Client_id and client_secret you can get on google, when register your app.
+        my $oauth = Net::Google::OAuth->new(
+                                                -client_id          => $CLIENT_ID,
+                                                -client_secret      => $CLIENT_SECRET,
+                                             );
+        #Generate link with request access token. This link you must copy to your browser and run.
+        $oauth->generateAccessToken(
+                                        -scope      => 'drive',
+                                        -email      => 'youremail@gmail.com',
+                                        );
+        print "Access token: ", $oauth->getAccessToken(), "\n";
+        print "Refresh token: ", $oauth->getRefreshToken, "\n";
+
+METHODS
+  new(%opt)
+    Create Net::Google::OAuth object
+
+        %opt:
+            -client_id          => Your app client id (Get from google when register your app)
+            -client_secret      => Your app client secret (Get from google when register your app)
+
+  generateAccessToken(%opt)
+    Generate link with request access token This link you must copy to your
+    browser and go it. Redirect answer you must copy to console. Return 1 if
+    success, die in otherwise
+
+        %opt
+            -scope              => Request access to scope (e.g. 'drive')
+            -email              => Your gmail email
+
+  refreshToken(%opt)
+    Get access token through refresh_token. Return 1 if success, die in
+    otherwise
+
+        %opt:
+            -refresh_token      => Your refresh token value (you can get refresh token after run method generateAccessToken() via getter getRefreshToken())
+
+  getTokenInfo(%opt)
+    Get info about access token (access_type, audience, expires_in,
+    issued_to, scope). Return hashref of result or die in otherwise
+
+        %opt:
+            -access_token       => Value of access_token (default use value returned by method getRefreshToken())
+        Example:
+            my $token_info = $oauth->getTokenInfo( -access_token => $access_token );
+            $token_info:
+                {
+                    access_type   "offline",
+                    audience      "593952972427-e6dr18ua0leurrjt1num.apps.googleusercontent.com",
+                    expires_in    3558,
+                    issued_to     "593952972427-e6dr18ua0leurrjtum.apps.googleusercontent.com",
+                    scope         "https://www.googleapis.com/auth/drive"
+                }
+
+  getAccessToken()
+    Return access token value
+
+  getRefreshToken()
+    Return refresh token value
+
+DEPENDENCE
+    LWP::UserAgent, JSON::XS, URI, HTTP::Request
+
+AUTHORS
+    *   Pavel Andryushin <vrag867@gmail.com>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2018 by Pavel Andryushin.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
